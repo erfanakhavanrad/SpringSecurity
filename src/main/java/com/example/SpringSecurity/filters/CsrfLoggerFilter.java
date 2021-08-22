@@ -15,7 +15,7 @@ public class CsrfLoggerFilter extends OncePerRequestFilter {
       HttpServletResponse httpServletResponse, FilterChain filterChain)
       throws ServletException, IOException {
     CsrfToken csrfToken = (CsrfToken) httpServletRequest.getAttribute("_csrf");
-    httpServletResponse.setHeader("FUCK", csrfToken.getToken());
+    httpServletResponse.setHeader("XSRF-TOKEN", csrfToken.getToken());
     filterChain.doFilter(httpServletRequest, httpServletResponse);
   }
 }

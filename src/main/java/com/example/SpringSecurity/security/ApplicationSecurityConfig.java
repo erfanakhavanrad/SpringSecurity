@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 
@@ -38,19 +39,12 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-//    super.configure(http);
-    //        .csrf().disable() // Cross Site Request Forgery
-//    http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-//http.csrf().disable()
-    http.addFilterAfter(new CsrfLoggerFilter(),
-        CsrfFilter.class)
+    http
+//        .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//        .and()
         .authorizeRequests()
         .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
         .antMatchers("/api/**").hasRole(STUDENT.name())
-//                .antMatchers(HttpMethod.DELETE, "/management/api/**").hasAuthority(COURSE_WRITE.getPermission())
-//                .antMatchers(HttpMethod.POST, "/management/api/**").hasAuthority(COURSE_WRITE.getPermission())
-//                .antMatchers(HttpMethod.PUT, "/management/api/**").hasAuthority(COURSE_WRITE.getPermission())
-//                .antMatchers("/management/api/**").hasAnyRole(ADMIN.name(), ADMINTRAINEE.name())
         .anyRequest()
         .authenticated()
         .and()

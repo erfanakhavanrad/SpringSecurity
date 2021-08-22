@@ -6,6 +6,7 @@ import static com.example.SpringSecurity.security.ApplicationUserRole.ADMIN;
 import static com.example.SpringSecurity.security.ApplicationUserRole.ADMIN_TRAINEE;
 import static com.example.SpringSecurity.security.ApplicationUserRole.STUDENT;
 
+import com.example.SpringSecurity.filters.CsrfLoggerFilter;
 import com.example.SpringSecurity.student.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -36,8 +39,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
 //    super.configure(http);
-    http
-        .csrf().disable() // TODO: I will teach this in detail in the next section
+    //        .csrf().disable() // Cross Site Request Forgery
+//    http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//http.csrf().disable()
+    http.addFilterAfter(new CsrfLoggerFilter(),
+        CsrfFilter.class)
         .authorizeRequests()
         .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
         .antMatchers("/api/**").hasRole(STUDENT.name())

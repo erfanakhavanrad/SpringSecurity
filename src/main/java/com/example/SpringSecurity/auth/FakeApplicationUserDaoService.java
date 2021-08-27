@@ -1,9 +1,10 @@
 package com.example.SpringSecurity.auth;
 
 import static com.example.SpringSecurity.security.ApplicationUserRole.ADMIN;
-import static com.example.SpringSecurity.security.ApplicationUserRole.ADMIN_TRAINEE;
+import static com.example.SpringSecurity.security.ApplicationUserRole.ADMINTRAINEE;
 import static com.example.SpringSecurity.security.ApplicationUserRole.STUDENT;
 
+import com.example.SpringSecurity.security.ApplicationUserRole;
 import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +54,7 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao {
         new ApplicationUser(
             "tom",
             passwordEncoder.encode("password"),
-            ADMIN_TRAINEE.getGrantedAuthorities(),
+            ADMINTRAINEE.getGrantedAuthorities(),
             true,
             true,
             true,
@@ -63,4 +64,5 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao {
 
     return applicationUsers;
   }
+
 }
